@@ -1,7 +1,7 @@
 import numpy as np
 from activation import relu, relu_derivative, sigmoid, sigmoid_derivative, tanh, tanh_derivative, softmax
 
-
+# FeedForward Neural Network class
 class FeedForwardNN:
     def __init__(self, input_size, hidden_layers, output_size, activation='relu', weight_init='random'):
         self.activation_name = activation
@@ -34,11 +34,27 @@ class FeedForwardNN:
             self.biases.append(b)
     
     def forward(self, X):
+        """
+        Performs a forward pass and caches intermediate activations and linear transforms.
+        Returns the output and a cache dictionary.
+        Pre-activation values (Z): 
+        (a -> Z, h -> A)
+        Linear transformation at each layer : ai(x)=Wi hi-1(x)+bi
+
+        Activations (A): 
+        After applying the activation function : hi(x) = g(ai(x)) 
+        """
         cache = {"A": [], "Z": []}
         A = X
         cache["A"].append(A)
         
         for i in range(len(self.weights) - 1):
+            """
+            Z[i]=A[i-1]W[i]+b[i]
+            Z[i] is the linear transformation (input to activation) at layer i,
+            A[i-1] is the output of the previous layer,
+            W and be are weights and biases for layer i.
+            """
             Z = np.dot(A, self.weights[i]) + self.biases[i]
             cache["Z"].append(Z)
             A = self.activation(Z)
@@ -51,6 +67,11 @@ class FeedForwardNN:
         return A, cache
 
     def backward(self, X, Y_true, cache):
+        """
+        Performs backpropagation to compute gradients for weights and biases.
+        Returns lists of gradients for weights and biases.
+        cross-entropy loss
+        """
         m = X.shape[0]
         L = len(self.weights)
         grads_W = [None] * L
@@ -76,8 +97,10 @@ class FeedForwardNN:
         grads_W = [None] * L
         grads_b = [None] * L
 
-        # MSE loss: loss = (1/(2*m)) * sum((A_final - Y_true)^2)
-        # dL/dA_final = (A_final - Y_true) / m
+        """
+        MSE loss: loss = (1/(2*m)) * sum((A_final - Y_true)^2)
+        dL/dA_final = (A_final - Y_true) / m
+        """
         A_final = cache["A"][-1]
         dZ = (A_final - Y_true) / m
         grads_W[L - 1] = np.dot(cache["A"][-2].T, dZ)
@@ -95,6 +118,12 @@ class FeedForwardNN:
 
 
     def update_parameters(self, grads_W, grads_b, optimizer):
+        """
+        Combines weights and biases into a single list, updates them using the provided optimizer,
+        and then splits them back into weights and biases.
+
+        W[i]=W[i]-η⋅∂Loss/∂W[i]
+        """
         params = self.weights + self.biases
         grads = grads_W + grads_b
         updated_params = optimizer.update(params, grads)
@@ -105,6 +134,10 @@ class FeedForwardNN:
     def cross_entropy_loss(self, Y_pred, Y_true):
         """
         Compute cross-entropy loss
+        m is the number of examples,
+        Y_true is the one-hot encoded vector of true labels for the i-th example,
+        Y_pred is the predicted probability distribution of the i-th example.
+
         loss =  - ∑ Y_true.log(Y_pred)
         """
         m = Y_true.shape[0]
@@ -121,6 +154,3 @@ class FeedForwardNN:
         predictions = np.argmax(Y_pred, axis=1)
         labels = np.argmax(Y_true, axis=1)
         return np.mean(predictions == labels)
-
-
-# python train.py --epochs 15 --weight_init xavier --weight_decay 0.0005 --batch_size 32 --optimizer adam --learning_rate 0.0001 --activation tanh --num_layers 4 --hidden_size 256
