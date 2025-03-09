@@ -153,9 +153,9 @@ def train_sweep():
         correct = np.sum(predictions == y_val_split)
         val_accuracy_epoch = correct / len(y_val_split)
 
-        if val_loss < best_val_loss:
-            best_val_loss = val_loss
-            best_epoch = epoch + 1
+        # if val_loss < best_val_loss:
+        #     best_val_loss = val_loss
+        #     best_epoch = epoch + 1
 
 
         # Log epoch-level metrics to wandb

@@ -3,12 +3,16 @@ import wandb
 import pickle
 from feedforward_nn import FeedForwardNN
 from utils import one_hot_encoding, parse_args, get_optimizer, plot_confusion_matrix
-from keras.datasets import fashion_mnist
+from keras.datasets import fashion_mnist, mnist
 
 projectId = "DA6401_Assignment1"
 
 # Load real Fashion-MNIST data
-(X_train, Y_train), (X_test, Y_test) = fashion_mnist.load_data()
+# if args.dataset == "fashion_mnist":
+#     (X_train, Y_train), (X_test, Y_test) = fashion_mnist.load_data()
+# elif args.dataset == "mnist":
+(X_train, Y_train), (X_test, Y_test) = mnist.load_data()
+# (X_train, Y_train), (X_test, Y_test) = fashion_mnist.load_data()
 X_train, X_test = X_train.reshape(-1, 784) / 255.0, X_test.reshape(-1, 784) / 255.0
 Y_train = one_hot_encoding(Y_train, 10)
 Y_test = one_hot_encoding(Y_test, 10)
@@ -85,7 +89,7 @@ def test(model, X_test, Y_test):
     return Y_pred_classes, Y_test_true
 
 def main(args):
-    wandb.init(project=projectId, notes="Improved training script with real data", tags=["fashion_mnist", "feedforward_nn"])
+    wandb.init(project=projectId, notes="Improved training script with real data", tags=["mnist", "feedforward_nn"])
     
     model = FeedForwardNN(input_size=784, output_size=10, hidden_layers=[args.hidden_size] * args.num_layers, activation=args.activation, weight_init=args.weight_init)
     optimizer = get_optimizer(args)

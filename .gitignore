@@ -24,8 +24,11 @@ build/
 
 # Logs
 *.log
+*.png
 
 # Temporary files
 *.tmp
 *.temp
 *.bak
+
+data/
