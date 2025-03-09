@@ -26,12 +26,14 @@ def train(model, optimizer, X_train, Y_train, X_val, Y_val, epochs, batch_size, 
 
     for epoch in range(epochs):
         permutation = np.random.permutation(num_samples)
-        X_shuffled, Y_shuffled = X_train[permutation], Y_train[permutation]
+        X_shuffled = X_train[permutation]
+        Y_shuffled  = Y_train[permutation]
         
         epoch_loss, epoch_accuracy = 0.0, 0.0
         for i in range(num_batches):
             start, end = i * batch_size, (i + 1) * batch_size
-            X_batch, Y_batch = X_shuffled[start:end], Y_shuffled[start:end]
+            X_batch = X_shuffled[start:end]
+            Y_batch = Y_shuffled[start:end]
             
             Y_pred, cache = model.forward(X_batch)
 
@@ -51,7 +53,9 @@ def train(model, optimizer, X_train, Y_train, X_val, Y_val, epochs, batch_size, 
             epoch_loss += loss
             epoch_accuracy += accuracy
         
-        avg_loss, avg_accuracy = epoch_loss / num_batches, epoch_accuracy / num_batches
+        # Calculate average loss and accuracy
+        avg_loss = epoch_loss / num_batches 
+        avg_accuracy = epoch_accuracy / num_batches
         
         # Validation accuracy
         Y_val_pred, _ = model.forward(X_val)
