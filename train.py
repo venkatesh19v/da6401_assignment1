@@ -2,7 +2,7 @@ import numpy as np
 import wandb
 import pickle
 from feedforward_nn import FeedForwardNN
-from utils import one_hot_encode, parse_args, get_optimizer, plot_confusion_matrix
+from utils import one_hot_encoding, parse_args, get_optimizer, plot_confusion_matrix
 from keras.datasets import fashion_mnist
 
 projectId = "DA6401_Assignment1"
@@ -10,7 +10,8 @@ projectId = "DA6401_Assignment1"
 # Load real Fashion-MNIST data
 (X_train, Y_train), (X_test, Y_test) = fashion_mnist.load_data()
 X_train, X_test = X_train.reshape(-1, 784) / 255.0, X_test.reshape(-1, 784) / 255.0
-Y_train, Y_test = one_hot_encode(Y_train, 10), one_hot_encode(Y_test, 10)
+Y_train = one_hot_encoding(Y_train, 10)
+Y_test = one_hot_encoding(Y_test, 10)
 
 # Create validation set
 val_split = 0.1

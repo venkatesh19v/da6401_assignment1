@@ -6,7 +6,7 @@ import wandb
 import time
 from optimizer import SGD, Momentum, NAGD, RMSProp, Adam, Nadam
 from feedforward_nn import FeedForwardNN
-from utils import one_hot_encode
+from utils import one_hot_encoding
 
 projectId = "DA6401_Assignment1"
 
@@ -86,8 +86,8 @@ def train_sweep():
     y_val_split = y_train[num_train:]
 
     num_classes = output_size  # classes 10
-    Y_train_split = one_hot_encode(y_train_split, num_classes)
-    Y_val_split = one_hot_encode(y_val_split, num_classes)
+    Y_train_split = one_hot_encoding(y_train_split, num_classes)
+    Y_val_split = one_hot_encoding(y_val_split, num_classes)
     hidden_layers = [hidden_size] * hidden_layers  # Creating hidden layers
 
     # Instantiating the model FeedForwardNN with backprop (Question 3)

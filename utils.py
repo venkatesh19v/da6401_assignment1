@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import wandb
 
-def one_hot_encode(y, num_classes):
+def one_hot_encoding(y, num_classes):
     one_hot = np.zeros((y.shape[0], num_classes))
     one_hot[np.arange(y.shape[0]), y] = 1
     return one_hot
