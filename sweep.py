@@ -67,6 +67,8 @@ def train_sweep():
     optimizer_name = config.optimizer 
     batch_size = config.batch_size  
     num_epochs = config.epochs  
+    loss_fn = config.loss_function
+    print(f"loss_function_used: ",loss_fn)
     
     # Load Fashion-MNIST data (using the standard train/test split)
     (X_train, y_train), (X_test, y_test) = fashion_mnist.load_data()
@@ -118,12 +120,18 @@ def train_sweep():
 
             # Forward pass and compute loss
             Y_pred, cache = model.forward(X_batch)
-            loss = model.cross_entropy_loss(Y_pred, Y_batch)
-            
-            epoch_loss += loss
+            if loss_fn == "cross_entropy":
+                loss = model.cross_entropy_loss(Y_pred, Y_batch)
+                # Backward pass to compute gradients
+                grads_W, grads_b = model.backward(X_batch, Y_batch, cache)
 
-            # Backward pass to compute gradients
-            grads_W, grads_b = model.backward(X_batch, Y_batch, cache)
+            else:
+               loss = model.squared_error_loss(Y_pred, Y_batch)
+               # Backward pass to compute gradients for mse
+               grads_W, grads_b = model.backward_mse(X_batch, Y_batch, cache)
+
+
+            epoch_loss += loss
 
             # Update parameters using the chosen optimizer
             model.update_parameters(grads_W, grads_b, optimizer)
@@ -133,11 +141,21 @@ def train_sweep():
 
         # Evaluating on the validation set
         Y_val_pred, _ = model.forward(X_val_split)
-        val_loss = model.cross_entropy_loss(Y_val_pred, Y_val_split)
+        
+        if loss_fn == "cross_entropy":
+            val_loss = model.cross_entropy_loss(Y_val_pred, Y_val_split)
+        else:
+            val_loss = model.squared_error_loss(Y_val_pred, Y_val_split)
+
+        # val_loss = model.cross_entropy_loss(Y_val_pred, Y_val_split)
 
         predictions = np.argmax(Y_val_pred, axis=1)
         correct = np.sum(predictions == y_val_split)
         val_accuracy_epoch = correct / len(y_val_split)
+
+        if val_loss < best_val_loss:
+            best_val_loss = val_loss
+            best_epoch = epoch + 1
 
 
         # Log epoch-level metrics to wandb
@@ -151,13 +169,14 @@ def train_sweep():
     print(f"Sweep run complete: Best Epoch: {best_epoch}, Best Val Loss: {best_val_loss:.4f}, Val Accuracy: {val_accuracy_epoch:.4f}")
 
 sweep_config = {
-    'method': 'random',  # bayes or random
+    'method': 'bayes',  # bayes or random
     'metric': {
         'name': 'val_loss',
         'goal': 'minimize'
     },
-    'name': 'hyperparameter_sweeping_random',
+    'name': 'hyperparameter_sweeping_mean_squared_error',
     'parameters': {
+        'loss_function': {'value': 'mean_squared_error'},
         # 'epochs': {'values': [5, 10, 15, 20]},
         'epochs': {'values': [5, 10, 15]},
         'hidden_layers': {'values': [3, 4, 5, 6]},
@@ -180,7 +199,7 @@ sweep_config = {
 sweep_id = wandb.sweep(sweep_config, project=projectId)
 
 if __name__ == '__main__':
-    wandb.agent(sweep_id, function=train_sweep)
+    wandb.agent(sweep_id, function=train_sweep, count=20)
 
 
 
