@@ -153,9 +153,9 @@ def train_sweep():
         correct = np.sum(predictions == y_val_split)
         val_accuracy_epoch = correct / len(y_val_split)
 
-        # if val_loss < best_val_loss:
-        #     best_val_loss = val_loss
-        #     best_epoch = epoch + 1
+        if val_loss < best_val_loss:
+            best_val_loss = val_loss
+            best_epoch = epoch + 1
 
 
         # Log epoch-level metrics to wandb
@@ -174,7 +174,7 @@ sweep_config = {
         'name': 'val_loss',
         'goal': 'minimize'
     },
-    'name': 'hyperparameter_sweeping_mean_squared_error',
+    'name': 'hyperparameter_sweeping_mse',
     'parameters': {
         'loss_function': {'value': 'mean_squared_error'},
         # 'epochs': {'values': [5, 10, 15, 20]},
@@ -199,7 +199,7 @@ sweep_config = {
 sweep_id = wandb.sweep(sweep_config, project=projectId)
 
 if __name__ == '__main__':
-    wandb.agent(sweep_id, function=train_sweep, count=20)
+    wandb.agent(sweep_id, function=train_sweep)
 
 
 
