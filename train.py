@@ -98,10 +98,7 @@ def main(args):
     
     Y_pred_classes, Y_test_true = test(model, X_test, Y_test)
     plot_confusion_matrix(Y_test_true, Y_pred_classes, class_names, args.loss)
-    wandb.log({"conf_mat" : wandb.plot.confusion_matrix(probs=None,
-                        y_true=Y_test_true, preds=Y_pred_classes,
-                        class_names=class_names)})
-
+    wandb.log({"Confusion_Matrix": wandb.sklearn.plot_confusion_matrix(Y_test_true, Y_pred_classes, class_names)})
     
     model_name = f"fashion_mnist_{args.loss}_{args.optimizer}_{args.activation}_lr{args.learning_rate}_batch{args.batch_size}.pkl"
     with open(model_name, 'wb') as f:
