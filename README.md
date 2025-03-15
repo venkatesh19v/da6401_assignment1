@@ -178,7 +178,7 @@ run.sh
   - After training, the best model is evaluated based on the best hyperparameter setings.
   - A confusion matrix is computed and plotted.
   - The plot is logged to wandb for report.
-  -  The model which gave the highest validation accuracy of 88.32%. The corresponding Testing Accuracy is 87.53%
+  -  The model which gave the highest validation accuracy of **88.32%**. The corresponding Testing Accuracy is **87.53%**
 
 | `Hyperparameter` | `Value` |
 |---------------------|----------------------|
