@@ -178,6 +178,28 @@ run.sh
   - After training, the best model is evaluated based on the best hyperparameter setings.
   - A confusion matrix is computed and plotted.
   - The plot is logged to wandb for report.
+  # Question 7 (10 Marks)
+
+The model which gave the highest validation accuracy of 88.32%. The corresponding Testing Accuracy is 87.53%
+
+| `Hyperparameter` | `Value` |
+|---------------------|----------------------|
+| Activation  | relu| 
+| batch size  | 32| 
+| beta  | 0.9| 
+| epochs | 20| 
+| epsilon | 0.000001|
+| hidden layers  | 3 |
+| hidden size  | 256|
+| learning rate  | 0.0001| 
+| momentum  | 0.95| 
+| optimizer  | nadam| 
+| weight decay  | 0.0005|
+| weight init  | xavier| 
+| train accuracy  | 0.9444| 
+| train loss  | 0.1771|
+| validation accuracy | 0.8991|
+| validation loss  | 0.3021| 
 
 ![alt text](images/image-3.png)
 ### Question 8: Loss Function Comparison
