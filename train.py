@@ -9,9 +9,9 @@ projectId = "DA6401_Assignment1"
 
 # Load real Fashion-MNIST data
 # if args.dataset == "fashion_mnist":
-#     (X_train, Y_train), (X_test, Y_test) = fashion_mnist.load_data()
+(X_train, Y_train), (X_test, Y_test) = fashion_mnist.load_data()
 # elif args.dataset == "mnist":
-(X_train, Y_train), (X_test, Y_test) = mnist.load_data()
+# (X_train, Y_train), (X_test, Y_test) = mnist.load_data()
 # (X_train, Y_train), (X_test, Y_test) = fashion_mnist.load_data()
 X_train, X_test = X_train.reshape(-1, 784) / 255.0, X_test.reshape(-1, 784) / 255.0
 Y_train = one_hot_encoding(Y_train, 10)
