@@ -128,20 +128,20 @@ run.sh
 - **Parameter Used:**  
 ```json
 {
-    'epochs': {'values': [5, 10, 15, 20]},
-    'hidden_layers': {'values': [3, 4, 5, 6, 7]},  
-    'hidden_size': {'values': [32, 64, 128, 256]}, 
-    'weight_decay': {'values': [0, 0.0005, 0.5]},  
-    'learning_rate': {'values': [0.0001, 0.001, 0.01, 0.1]},
-    'optimizer': {'values': ['sgd', 'momentum', 'nagd', 'rmsprop', 'adam', 'nadam']},
-    'batch_size': {'values': [8, 16, 32, 64]}, 
-    'weight_init': {'values': ['random', 'xavier']},
-    'activation': {'values': ['sigmoid', 'tanh', 'relu']}, 
-    'input_size': {'value': 784},  
-    'output_size': {'value': 10},  
-    'epsilon':{ 'values': [1e-8, 1e-7, 1e-6]},
-    'beta': {'values': [0.9, 0.99, 0.999]}, 
-    'momentum': {'values': [0.8, 0.9, 0.95]},  
+    "epochs": {"values": [5, 10, 15, 20]},
+    "hidden_layers": {"values": [3, 4, 5, 6, 7]},  
+    "hidden_size": {"values": [32, 64, 128, 256]}, 
+    "weight_decay": {"values": [0, 0.0005, 0.5]},  
+    "learning_rate": {"values": [0.0001, 0.001, 0.01, 0.1]},
+    "optimizer": {"values": ["sgd", "momentum", "nagd", "rmsprop", "adam", "nadam"]},
+    "batch_size": {"values": [8, 16, 32, 64]}, 
+    "weight_init": {"values": ["random", "xavier"]},
+    "activation": {"values": ["sigmoid", "tanh", "relu"]}, 
+    "input_size": {"value": 784},  
+    "output_size": {"value": 10},  
+    "epsilon":{ "values": [1e-8, 1e-7, 1e-6]},
+    "beta": {"values": [0.9, 0.99, 0.999]}, 
+    "momentum": {"values": [0.8, 0.9, 0.95]},  
 }
 ```
 ### Question 5: Best Validation Accuracy Plot
