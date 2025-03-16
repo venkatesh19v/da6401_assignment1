@@ -44,6 +44,7 @@ This project implements a feedforward neural network from scratch using only Num
 ├── images              # Contains Output Images    
 ├── optimizer.py        # Implements the optimizer classes (SGD, Momentum, Nesterov, RMSProp, Adam, Nadam)
 ├── run.sh              # Bash script to run training with a set of command-line parameters
+├── setup.sh            # This script automates the setup of the Python environment and install all required libraries
 ├── sweep.py            # Contains the wandb sweep configuration and parameters to start the hyperparameter sweep
 ├── train.py            # Main training script; parses command-line arguments, integrates wandb, and runs training and evaluation
 ├── utils.py            # Contains helper functions (e.g., argument parsing, data splitting, plotting utilities, etc.)
