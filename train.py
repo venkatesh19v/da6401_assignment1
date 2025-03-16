@@ -111,7 +111,7 @@ def main(args):
     # plot_confusion_matrix(Y_test_true, Y_pred_classes, class_names, args.loss)
     wandb.log({"Confusion_Matrix": wandb.sklearn.plot_confusion_matrix(Y_test_true, Y_pred_classes, class_names)})
     
-    model_name = f"fashion_mnist_{args.loss}_{args.optimizer}_{args.activation}_lr{args.learning_rate}_batch{args.batch_size}.pkl"
+    model_name = f"{args.dataset}_{args.loss}_{args.optimizer}_{args.activation}_lr{args.learning_rate}_batch{args.batch_size}.pkl"
     with open(model_name, 'wb') as f:
         pickle.dump({'model': model, 'optimizer': optimizer}, f)
     print(f"Model saved as {model_name}")
