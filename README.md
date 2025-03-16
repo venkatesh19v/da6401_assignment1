@@ -3,7 +3,8 @@ Author: Venkatesh H, NS24Z029
 # DA6401 Assignment 1
 
 This repository contains a complete implementation of a feedforward neural network from scratch using NumPy, along with multiple optimization algorithms (SGD, Momentum, Nesterov, RMSProp, Adam, Nadam). In addition, the code integrates with **wandb** for experiment tracking and hyperparameter sweeps using MNIST dataset.
-
+- Github Repo Link: [Github Repo](https://github.com/venkatesh19v/da6401_assignment1.git)
+- WandB Report Link: [WandB Report](https://api.wandb.ai/links/venkatesh19v-indian-institute-of-technology-madras/nvu2w725)
 ## Table of Contents
 
 - [Overview](#overview)
@@ -206,13 +207,33 @@ run.sh
 - **Implementation:**  
   - The sweep and training function ran with cross entropy and MSE to compare the diffrence. 
   - Experiments with each loss type to visualize differences in convergence and accuracy.
+
+| `Hyperparameter` | `Value Cross-Entropy` |`Value MSE`|
+|---------------------|----------|------------|
+| Activation  | relu| relu|
+| batch size  | 64| 8|
+| beta  | 0.99|0.99|
+| epochs | 20|10|
+| epsilon | 1.0000e-8|0.000001||
+| hidden layers  | 3 |5|
+| hidden size  | 256|256|
+| learning rate  | 0.001| 0.0001|
+| momentum  | 0.8| 0.9|
+| optimizer  | adam| nadam|
+| weight decay  | 0.5|0.0005|
+| weight init  | random|xavier|
+| train accuracy  | 0.9408| 0.9254|
+| train loss  | 0.17647| 0.11928|
+| validation accuracy | 0.90617|0.9035|
+| validation loss  | 0.29081| 0.1477|
+
 ### Question 9: Github & WandB
 
 - **Task:** GitHub & WandB
 - **Implementation:**  
   - Github Repo Link: [Github Repo](https://github.com/venkatesh19v/da6401_assignment1.git)
  
-  - WandB Report Link: [WandB Report](https://github.com/venkatesh19v/da6401_assignment1.git)
+  - WandB Report Link: [WandB Report](https://api.wandb.ai/links/venkatesh19v-indian-institute-of-technology-madras/nvu2w725)
 ### Question 10: Work for the MNIST dataset
 
 - **Task:** Experimentation with MNIST dataset
