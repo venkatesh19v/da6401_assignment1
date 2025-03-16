@@ -25,10 +25,9 @@ def load_data(dataset):
     split_idx = int(X_train.shape[0] * (1 - val_split))
     X_train, X_val = X_train[:split_idx], X_train[split_idx:]
     Y_train, Y_val = Y_train[:split_idx], Y_train[split_idx:]
-    
+    print("X_train: ",len(X_train),"X_Val: ", len(X_val), "X_test: ",len(X_test))
+    print("Y_train: ",len(Y_train),"Y_Val: ", len(Y_val), "Y_test: ",len(Y_test))
     return X_train, Y_train, X_val, Y_val, X_test, Y_test
-
-class_names = ["T-shirt", "Trouser", "Pullover", "Dress", "Coat", "Sandal", "Shirt", "Sneaker", "Bag", "Ankle boot"]
 
 def train(model, optimizer, X_train, Y_train, X_val, Y_val, epochs, batch_size, loss):
     num_samples = X_train.shape[0]
@@ -103,6 +102,12 @@ def main(args):
     train(model, optimizer, X_train, Y_train, X_val, Y_val, epochs=args.epochs, batch_size=args.batch_size, loss=args.loss)
     
     Y_pred_classes, Y_test_true = test(model, X_test, Y_test)
+
+    if args.dataset == "fashion_mnist": 
+        class_names = ["T-shirt", "Trouser", "Pullover", "Dress", "Coat", "Sandal", "Shirt", "Sneaker", "Bag", "Ankle boot"]
+    else:
+        class_names = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    
     # plot_confusion_matrix(Y_test_true, Y_pred_classes, class_names, args.loss)
     wandb.log({"Confusion_Matrix": wandb.sklearn.plot_confusion_matrix(Y_test_true, Y_pred_classes, class_names)})
     
