@@ -7,21 +7,26 @@ from keras.datasets import fashion_mnist, mnist
 
 projectId = "DA6401_Assignment1"
 
-# Load real Fashion-MNIST data
-# if args.dataset == "fashion_mnist":
-(X_train, Y_train), (X_test, Y_test) = fashion_mnist.load_data()
-# elif args.dataset == "mnist":
-# (X_train, Y_train), (X_test, Y_test) = mnist.load_data()
-# (X_train, Y_train), (X_test, Y_test) = fashion_mnist.load_data()
-X_train, X_test = X_train.reshape(-1, 784) / 255.0, X_test.reshape(-1, 784) / 255.0
-Y_train = one_hot_encoding(Y_train, 10)
-Y_test = one_hot_encoding(Y_test, 10)
+def load_data(dataset):
+    print(dataset)
+    # Load real Fashion-MNIST data
+    if dataset == "fashion_mnist":
+        (X_train, Y_train), (X_test, Y_test) = fashion_mnist.load_data()
+    # elif args.dataset == "mnist":
+    else:
+        (X_train, Y_train), (X_test, Y_test) = mnist.load_data()
+    # (X_train, Y_train), (X_test, Y_test) = fashion_mnist.load_data()
+    X_train, X_test = X_train.reshape(-1, 784) / 255.0, X_test.reshape(-1, 784) / 255.0
+    Y_train = one_hot_encoding(Y_train, 10)
+    Y_test = one_hot_encoding(Y_test, 10)
 
-# Create validation set
-val_split = 0.1
-split_idx = int(X_train.shape[0] * (1 - val_split))
-X_train, X_val = X_train[:split_idx], X_train[split_idx:]
-Y_train, Y_val = Y_train[:split_idx], Y_train[split_idx:]
+    # Create validation set
+    val_split = 0.1
+    split_idx = int(X_train.shape[0] * (1 - val_split))
+    X_train, X_val = X_train[:split_idx], X_train[split_idx:]
+    Y_train, Y_val = Y_train[:split_idx], Y_train[split_idx:]
+    
+    return X_train, Y_train, X_val, Y_val, X_test, Y_test
 
 class_names = ["T-shirt", "Trouser", "Pullover", "Dress", "Coat", "Sandal", "Shirt", "Sneaker", "Bag", "Ankle boot"]
 
@@ -90,14 +95,15 @@ def test(model, X_test, Y_test):
 
 def main(args):
     wandb.init(project=projectId, notes="Improved training script with real data", tags=["mnist", "feedforward_nn"])
-    
+    X_train, Y_train, X_val, Y_val, X_test, Y_test = load_data(args.dataset)
+
     model = FeedForwardNN(input_size=784, output_size=10, hidden_layers=[args.hidden_size] * args.num_layers, activation=args.activation, weight_init=args.weight_init)
     optimizer = get_optimizer(args)
 
     train(model, optimizer, X_train, Y_train, X_val, Y_val, epochs=args.epochs, batch_size=args.batch_size, loss=args.loss)
     
     Y_pred_classes, Y_test_true = test(model, X_test, Y_test)
-    plot_confusion_matrix(Y_test_true, Y_pred_classes, class_names, args.loss)
+    # plot_confusion_matrix(Y_test_true, Y_pred_classes, class_names, args.loss)
     wandb.log({"Confusion_Matrix": wandb.sklearn.plot_confusion_matrix(Y_test_true, Y_pred_classes, class_names)})
     
     model_name = f"fashion_mnist_{args.loss}_{args.optimizer}_{args.activation}_lr{args.learning_rate}_batch{args.batch_size}.pkl"
