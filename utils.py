@@ -15,6 +15,9 @@ def parse_args():
     parser = argparse.ArgumentParser()
         
     # Dataset arguments
+    parser.add_argument('--wandb_project', type=str, default="DA6401_Assignment1", help="Wandb project name")
+    parser.add_argument('--wandb_entity', type=str, default="venkatesh19v-indian-institute-of-technology-madras", help="Wandb entity name")
+
     parser.add_argument('--dataset', type=str, choices=["mnist", "fashion_mnist"], default="fashion_mnist", help='Dataset to use')
     
     # Training configuration arguments
